@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:isd_app/features/post/domain/entities/post.dart';
 
 class Post {
   final String id;
