@@ -52,6 +52,9 @@ class _HomePageState extends State<HomePage> {
                     UploadPostPage(), // Assuming you have an UploadPostPage
               ),
             ),
+              context, MaterialPageRoute(
+              builder: (context) => UploadPostPage(), // Assuming you have an UploadPostPage
+            )),
             icon: const Icon(Icons.add),
           ),
         ],
@@ -66,15 +69,22 @@ class _HomePageState extends State<HomePage> {
           //loading
           if (state is PostsLoading || state is PostUploading) {
             return const Center(child: CircularProgressIndicator());
+          if(state is PostsLoading  || state is PostUploading){
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
           }
 
           //loaded
           if (state is PostsLoaded) {
             //get posts
             final allPosts = state.posts;
-
             if (allPosts.isEmpty) {
               return const Center(child: Text('No posts yet'));
+            if(allPosts.isEmpty){
+              return const Center(
+                child: Text('No posts yet'),
+              );
             }
 
             return ListView.builder(
@@ -98,6 +108,23 @@ class _HomePageState extends State<HomePage> {
           }
         },
       ),
+    );
+  }
+}
+          //error
+          else if (state is PostsError) {
+            return Center(
+              child: Text(
+                state.message,
+              ),
+            );
+          }
+          else {
+            return const SizedBox();
+          }
+        }
+        ),
+
     );
   }
 }
