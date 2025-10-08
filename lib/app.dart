@@ -1,77 +1,84 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+// Auth
 import 'package:isd_app/features/auth/data/firebase_auth_repo.dart';
 import 'package:isd_app/features/auth/presentation/cubits/auth_cubit.dart';
 import 'package:isd_app/features/auth/presentation/cubits/auth_states.dart';
 import 'package:isd_app/features/auth/presentation/pages/auth_page.dart';
+
+// Home
 import 'package:isd_app/features/home/presentation/pages/home_page.dart';
+
+// Profile
+import 'package:isd_app/features/profile/data/firebase_profile_repo.dart';
+import 'package:isd_app/features/profile/presentation/cubits/profile_cubit.dart';
+
+// Post
 import 'package:isd_app/features/post/data/firebase_post_repo.dart';
 import 'package:isd_app/features/post/presentation/cubits/post_cubit.dart';
-import 'package:isd_app/features/storage/domain/data/cloudinary_storage_repo.dart';
+
+// Storage (Cloudinary)
+import 'package:isd_app/features/storage/data/cloudinary_storage_repo.dart';
+
+// Search (optional, if already implemented)
+import 'package:isd_app/features/search/data/firebase_search_repo.dart';
+import 'package:isd_app/features/search/presentation/cubits/search_cubit.dart';
 
 /*
-  * This is the main entry point of the application. Root leve
-
-  * It initializes the app and sets up the theme and home page.
-
-  repo - for database - firebase
-
-  bloc provider - for state management
-  auth- profile- post- search - theme
-
-  check if user is authenticated
-  if not authenticated, show login page
-  if authenticated, show home page
-  */
+  Root-level app initialization:
+  - Sets up repositories (Firebase + Cloudinary)
+  - Provides cubits for Auth, Profile, Post, and Search
+  - Handles authentication state to switch between AuthPage and HomePage
+*/
 
 class MyApp extends StatelessWidget {
-  //final AuthRepo authRepo;
   final firebaseAuthRepo = FirebaseAuthRepo();
-
-  //profile repo
-  //final firebaseProfileRepo = FirebaseProfileRepo();
-
-  //storage repo
+  final firebaseProfileRepo = FirebaseProfileRepo();
   final firebaseStorageRepo = CloudinaryStorageRepo();
-
-  //post repo
   final firebasePostRepo = FirebasePostRepo();
-
-  // Search Repo
-  //final firebaseSearchRepo = FirebaseSearchRepo();
+  final firebaseSearchRepo = FirebaseSearchRepo();
 
   MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // provide the auth cubit to the app
     return MultiBlocProvider(
       providers: [
-        //auth cubit
+        // Auth Cubit
         BlocProvider<AuthCubit>(
           create: (context) => AuthCubit(authRepo: firebaseAuthRepo),
         ),
 
-        //post cubit
+        // Profile Cubit
+        BlocProvider<ProfileCubit>(
+          create: (context) => ProfileCubit(
+            profileRepo: firebaseProfileRepo,
+            storageRepo: firebaseStorageRepo,
+          ),
+        ),
+
+        // Post Cubit
         BlocProvider<PostCubit>(
-          create:
-              (context) => PostCubit(
-                postRepo: firebasePostRepo,
-                storageRepo: firebaseStorageRepo,
-              ),
+          create: (context) => PostCubit(
+            postRepo: firebasePostRepo,
+            storageRepo: firebaseStorageRepo,
+          ),
+        ),
+
+        // Search Cubit
+        BlocProvider<SearchCubit>(
+          create: (context) => SearchCubit(searchRepo: firebaseSearchRepo),
         ),
       ],
 
-      
-      // bloc builder: themes
-      child: 
-         MaterialApp(
+      // App structure
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
 
-        // bloc builder: check current auth state
         home: BlocConsumer<AuthCubit, AuthState>(
           builder: (context, authState) {
-            print(authState);
+            print("AuthState: $authState");
 
             if (authState is Unauthenticated) {
               return const AuthPage();
@@ -81,22 +88,21 @@ class MyApp extends StatelessWidget {
               return const HomePage();
             }
 
-            // fallback for loading/error/initial
+            // Default: show loader
             return const Scaffold(
               body: Center(child: CircularProgressIndicator()),
             );
           },
 
-          //listen for errors
           listener: (context, state) {
             if (state is AuthError) {
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(SnackBar(content: Text(state.message)));
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(state.message)),
+              );
             }
           },
+        ),
       ),
-    ),
-      );
+    );
   }
 }
