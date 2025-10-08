@@ -99,18 +99,6 @@ class AuthCubit extends Cubit<AuthState> {
     await authRepo.logOut();
     // ✅ authStateChanges will emit Unauthenticated
   }
-
- Future<void> resetPassword(String email) async {
-    try {
-      emit(AuthLoading());
-      await authRepo.sendPasswordResetEmail(email);
-      emit(AuthInitial()); // return to idle
-      print("📨 Password reset email sent to $email");
-    } catch (e) {
-      emit(AuthError(message: e.toString()));
-      print("❌ Password reset error: $e");
-    }
-  }
   
   @override
   Future<void> close() {

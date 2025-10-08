@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:isd_app/features/auth/presentation/cubits/auth_cubit.dart';
@@ -15,19 +16,35 @@ class ForgotPasswordPage extends StatefulWidget {
 class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final emailController = TextEditingController();
 
-  void sendResetEmail() {
-    final email = emailController.text.trim();
-    if (email.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter your email')),
-      );
-      return;
+  @override
+  void dispose() {
+    emailController.dispose();
+    super.dispose();
+  }
+
+  Future passwordReset() async{
+    try{
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: emailController.text.trim());
+      showDialog(context: context, 
+      builder: (context){
+        return AlertDialog(
+          content: Text('Password reset link sent! Check your email.'),
+        );
+      });
+    } on FirebaseAuthException catch (e){
+      print(e);
+      showDialog(
+        context: context, 
+        builder: (context){
+          return AlertDialog(
+            content: Text(e.message.toString()),
+          );
+        });
     }
-    context.read<AuthCubit>().resetPassword(email);
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is AuthError) {
@@ -63,7 +80,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 obscureText: false,
               ),
               const SizedBox(height: 20),
-              MyButton(onTap: sendResetEmail, text: "Send Reset Link"),
+              MaterialButton(
+                onPressed: passwordReset,
+                child: Text("Reset Password"),
+                color: Theme.of(context).colorScheme.primary,
+                )
             ],
           ),
         ),
