@@ -77,7 +77,7 @@ class MyDrawer extends StatelessWidget {
                   context,
                   MaterialPageRoute(builder: (context) => SettingsPage()),
                 ),
-              ), 
+              ), */
 
               const Spacer(),
 
@@ -86,7 +86,7 @@ class MyDrawer extends StatelessWidget {
                 title: "L O G O U T",
                 icon: Icons.logout,
                 onTap: () => context.read<AuthCubit>().logOut(),
-              ),*/
+              ),
             ],
           ),
         ),
