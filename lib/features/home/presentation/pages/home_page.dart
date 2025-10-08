@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:isd_app/features/post/presentation/cubits/post_cubit.dart';
@@ -47,6 +46,12 @@ class _HomePageState extends State<HomePage> {
           //upload new post button
           IconButton(
             onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    UploadPostPage(), // Assuming you have an UploadPostPage
+              ),
+            ),
               context, MaterialPageRoute(
               builder: (context) => UploadPostPage(), // Assuming you have an UploadPostPage
             )),
@@ -62,6 +67,8 @@ class _HomePageState extends State<HomePage> {
       body: BlocBuilder<PostCubit, PostState>(
         builder: (context, state) {
           //loading
+          if (state is PostsLoading || state is PostUploading) {
+            return const Center(child: CircularProgressIndicator());
           if(state is PostsLoading  || state is PostUploading){
             return const Center(
               child: CircularProgressIndicator(),
@@ -72,7 +79,8 @@ class _HomePageState extends State<HomePage> {
           if (state is PostsLoaded) {
             //get posts
             final allPosts = state.posts;
-
+            if (allPosts.isEmpty) {
+              return const Center(child: Text('No posts yet'));
             if(allPosts.isEmpty){
               return const Center(
                 child: Text('No posts yet'),
@@ -92,8 +100,17 @@ class _HomePageState extends State<HomePage> {
               },
             );
           }
-          
-
+          //error
+          else if (state is PostsError) {
+            return Center(child: Text(state.message));
+          } else {
+            return const SizedBox();
+          }
+        },
+      ),
+    );
+  }
+}
           //error
           else if (state is PostsError) {
             return Center(
