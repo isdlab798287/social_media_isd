@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:isd_app/features/auth/presentation/cubits/auth_cubit.dart';
 
 import 'package:isd_app/features/home/presentation/components/my_drawer_tile.dart';
+import 'package:isd_app/features/profile/presentation/pages/profile_page.dart';
 //import 'package:social_media/features/profile/data/firebase_profile_repo.dart';
 //import 'package:social_media/features/profile/presentation/pages/profile_page.dart';
 //import 'package:social_media/features/search/presentation/pages/search_page.dart';
@@ -41,7 +42,7 @@ class MyDrawer extends StatelessWidget {
 
               // Profile
 
-              /*MyDrawerTile(
+              MyDrawerTile(
                 title: "P R O F I L E",
                 icon: Icons.person,
                 onTap: () {
@@ -55,7 +56,7 @@ class MyDrawer extends StatelessWidget {
                     );
                   }
                 },
-              ), */
+              ), 
 
               // Search
               /*

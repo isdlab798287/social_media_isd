@@ -24,4 +24,7 @@ abstract class AuthRepo {
   //get current user
   Future <AppUser?> getCurrentUser();
 
+  //send password reset email
+  Future<void> sendPasswordResetEmail(String email);
+
 }

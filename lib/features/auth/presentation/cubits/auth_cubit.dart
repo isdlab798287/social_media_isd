@@ -6,6 +6,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:isd_app/features/auth/domain/entities/app_user.dart';
 import 'package:isd_app/features/auth/domain/repos/auth_repo.dart';
@@ -99,11 +100,23 @@ class AuthCubit extends Cubit<AuthState> {
     // ✅ authStateChanges will emit Unauthenticated
   }
 
+ Future<void> resetPassword(String email) async {
+    try {
+      emit(AuthLoading());
+      await authRepo.sendPasswordResetEmail(email);
+      emit(AuthInitial()); // return to idle
+      print("📨 Password reset email sent to $email");
+    } catch (e) {
+      emit(AuthError(message: e.toString()));
+      print("❌ Password reset error: $e");
+    }
+  }
+  
   @override
   Future<void> close() {
     _authSubscription?.cancel();
     return super.close();
   }
-
-  void fetchUserProfile(String uid) {}
+  
+   void fetchUserProfile(String uid) {}
 }
