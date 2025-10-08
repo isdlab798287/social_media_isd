@@ -19,11 +19,10 @@ class FirebaseAuthRepo implements AuthRepo {
           .signInWithEmailAndPassword(email: email, password: password);
 
       //fetch user data from firestore
-      DocumentSnapshot userDoc =
-          await firebaseFirestore
-              .collection('users')
-              .doc(userCredential.user!.uid)
-              .get();
+      DocumentSnapshot userDoc = await firebaseFirestore
+          .collection('users')
+          .doc(userCredential.user!.uid)
+          .get();
 
       //create user
       AppUser user = AppUser(
@@ -37,7 +36,6 @@ class FirebaseAuthRepo implements AuthRepo {
           .collection('users')
           .doc(user.uid)
           .set(user.toJson());
-
 
       //return user
       return user;
@@ -98,8 +96,10 @@ class FirebaseAuthRepo implements AuthRepo {
       return null;
     }
 
-    final userDoc =
-        await firebaseFirestore.collection('users').doc(firebaseUser.uid).get();
+    final userDoc = await firebaseFirestore
+        .collection('users')
+        .doc(firebaseUser.uid)
+        .get();
 
     if (!userDoc.exists) {
       return AppUser(
@@ -118,5 +118,14 @@ class FirebaseAuthRepo implements AuthRepo {
       name: userDoc['name'] ?? '',
       email: firebaseUser.email!,
     );
+  }
+
+  // ✅ Send password reset email
+  Future<void> sendPasswordResetEmail(String email) async {
+    try {
+      await firebaseAuth.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
+      throw Exception(e.message ?? 'Failed to send reset email.');
+    }
   }
 }

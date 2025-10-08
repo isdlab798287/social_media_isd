@@ -36,11 +36,11 @@ class ProfileCubit extends Cubit<ProfileState>{
   }
 
   //return user profile given uid -> userful for loading many profiles for posts
- /* Future<ProfileUser?> getUserProfile(String uid) async {
+ Future<ProfileUser?> getUserProfile(String uid) async {
     
       final user = await profileRepo.fetchUserProfile(uid);
       return user;
-  }*/
+  }
 
   //update the user profile using repo
 
@@ -55,7 +55,7 @@ class ProfileCubit extends Cubit<ProfileState>{
       }
 
       //Profile picture update
-     // String? imageDownloadUrl;
+     String? imageDownloadUrl;
 
       //check if the image is not null
       /*if (imageWebBytes != null || imageMobilePath != null) {
@@ -78,7 +78,7 @@ class ProfileCubit extends Cubit<ProfileState>{
       //update the profile user
       final updatedProfile = currentUser.copyWith(
         newBio: newBio ?? currentUser.bio,
-        
+        newProfileImageUrl: imageDownloadUrl ?? currentUser.profileImageUrl,
       );
       //update the profile using repo
       await profileRepo.updateProfile(updatedProfile);
@@ -92,7 +92,7 @@ class ProfileCubit extends Cubit<ProfileState>{
   }
 
   //toggle follow using repo
- /* Future<void> toggleFollow(String currentUid, String targetUid) async {
+  Future<void> toggleFollow(String currentUid, String targetUid) async {
     
     try {
       await profileRepo.toggleFollow(currentUid, targetUid);
@@ -100,6 +100,5 @@ class ProfileCubit extends Cubit<ProfileState>{
     } catch (e) {
       emit(ProfileError('Error toggling follow: $e'));
     }
-  }*/
- 
+  }
 }

@@ -1,8 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:isd_app/features/profile/domain/entities/profile_user.dart';
 import 'package:isd_app/features/profile/domain/repos/profile_repo.dart';
 
 class FirebaseProfileRepo implements ProfileRepo {
-  get firebaseFirestore => null;
+  final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
   @override
   Future<ProfileUser?> fetchUserProfile(String uid) async {
@@ -14,8 +15,8 @@ final userDoc = await firebaseFirestore.collection('users').doc(uid).get();
        
         if(userData != null){
           //fetch followers and following lists
-          //final followers = List<String>.from(userData['followers'] ?? []);
-          //final following = List<String>.from(userData['following'] ?? []);
+          final followers = List<String>.from(userData['followers'] ?? []);
+          final following = List<String>.from(userData['following'] ?? []);
 
           //create and return ProfileUser object
           return ProfileUser(
@@ -24,8 +25,8 @@ final userDoc = await firebaseFirestore.collection('users').doc(uid).get();
             name: userData['name'],
             bio: userData['bio'] ?? '',
             profileImageUrl: userData['profileImageUrl'].toString(),
-            //followers: followers,
-            //following: following,
+            followers: followers,
+            following: following,
           );
         }
     }
@@ -52,5 +53,52 @@ final userDoc = await firebaseFirestore.collection('users').doc(uid).get();
    catch (e) {
     throw Exception(e);
    }
+  }
+
+  @override
+  Future<void> toggleFollow(String currentUid, String targetUid) async {
+    try{
+      final currentUserDoc = 
+        await firebaseFirestore.collection('users').doc(currentUid).get();
+      final targetUserDoc =
+        await firebaseFirestore.collection('users').doc(targetUid).get();
+
+      if(currentUserDoc.exists && targetUserDoc.exists){
+        final currentUserData = currentUserDoc.data();
+        final targetUserData = targetUserDoc.data();
+
+        if(currentUserData != null && targetUserData != null){
+          final List<String> currentFollowing = 
+            List<String>.from(currentUserData['following'] ?? []);
+
+          // check if the current user is already following the target user
+          if(currentFollowing.contains(targetUid)){
+            // Unfollow the user
+            await firebaseFirestore.collection('users').doc(currentUid).update({
+              'following': FieldValue.arrayRemove([targetUid]),
+            });
+
+            await firebaseFirestore.collection('users').doc(targetUid).update({
+              'followers': FieldValue.arrayRemove([currentUid]),
+            });
+          } 
+          
+          else {
+            // Follow the user
+            await firebaseFirestore.collection('users').doc(currentUid).update({
+              'following': FieldValue.arrayUnion([targetUid]),
+            });
+
+            await firebaseFirestore.collection('users').doc(targetUid).update({
+              'followers': FieldValue.arrayUnion([currentUid]),
+            });
+          }
+        } else {  
+          throw Exception('Current user data is null');
+        }
+      }
+    } catch (e) {
+      throw Exception('Error toggling follow: $e');
+    }
   }
 }
