@@ -10,6 +10,7 @@ import 'package:isd_app/features/auth/presentation/components/my_button.dart';
 import 'package:isd_app/features/auth/presentation/components/my_text_field.dart';
 import 'package:isd_app/features/auth/presentation/cubits/auth_cubit.dart';
 import 'package:isd_app/features/auth/presentation/cubits/auth_states.dart';
+import 'package:isd_app/features/auth/presentation/pages/forgot_password_page.dart';
 
 class LoginPage extends StatefulWidget {
   final void Function()?
@@ -122,12 +123,22 @@ class _LoginPageState extends State<LoginPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Text(
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const ForgotPasswordPage(),
+                              ),
+                            );
+                          },
+                        child: Text(
                           "Forgot Password?",
                           style: TextStyle(
                             fontSize: 16,
                             color: Theme.of(context).colorScheme.primary,
                           ),
+                        ),
                         ),
                       ],
                     ),

@@ -41,6 +41,7 @@ dependencies:
   file_picker: ^10.3.3
   firebase_auth_platform_interface: 8.1.2
   cached_network_image: ^3.4.1
+  cloudinary_public: ^0.23.1
 
 dev_dependencies:
   flutter_test:

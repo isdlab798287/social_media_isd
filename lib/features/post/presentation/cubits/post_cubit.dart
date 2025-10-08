@@ -7,9 +7,9 @@ import 'package:isd_app/features/storage/domain/storage_repo.dart';
 
 class PostCubit extends Cubit<PostState> {
   final PostRepo postRepo;
-  final StorageRepo storageRepo;
+  //final StorageRepo storageRepo;
 
-  PostCubit({required this.postRepo, required this.storageRepo})
+  PostCubit({required this.postRepo, })
     : super(PostsInitial());
 
   //create a new post
@@ -24,12 +24,12 @@ class PostCubit extends Cubit<PostState> {
       //handle image upload for mobile platforms (using file path)
       if (imagePath != null) {
         emit(PostUploading());
-        imageUrl = await storageRepo.uploadPostImageMobile(imagePath, post.id);
+        //imageUrl = await storageRepo.uploadPostImageMobile(imagePath, post.id);
       }
       //handle image upload for web platforms (using bytes)
       else if (imageBytes != null) {
         emit(PostUploading());
-        imageUrl = await storageRepo.uploadPostImageWeb(imageBytes, post.id);
+        //imageUrl = await storageRepo.uploadPostImageWeb(imageBytes, post.id);
       }
 
       //give image url to post
