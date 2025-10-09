@@ -7,9 +7,9 @@ import 'package:isd_app/features/storage/domain/storage_repo.dart';
 
 class PostCubit extends Cubit<PostState> {
   final PostRepo postRepo;
-  //final StorageRepo storageRepo;
+  final StorageRepo storageRepo;
 
-  PostCubit({required this.postRepo, })
+  PostCubit({required this.postRepo, required this.storageRepo})
     : super(PostsInitial());
 
   //create a new post

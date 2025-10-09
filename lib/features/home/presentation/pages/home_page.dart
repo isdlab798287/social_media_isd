@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:isd_app/features/home/presentation/components/my_drawer.dart';
+import 'package:isd_app/features/post/presentation/components/post_tile.dart';
 import 'package:isd_app/features/post/presentation/cubits/post_cubit.dart';
 import 'package:isd_app/features/post/presentation/cubits/post_states.dart';
 import 'package:isd_app/features/post/presentation/pages/upload_post_page.dart';
@@ -13,8 +14,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // //post cubit
-  // late final postCubit = context.read<PostCubit>();
+  //post cubit
+  late final postCubit = context.read<PostCubit>();
 
   //on startup, fetch posts
   @override

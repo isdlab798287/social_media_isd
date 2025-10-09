@@ -9,11 +9,11 @@ import 'package:isd_app/features/storage/domain/storage_repo.dart';
 
 class ProfileCubit extends Cubit<ProfileState>{
   final ProfileRepo profileRepo;
- // final StorageRepo storageRepo;
+  final StorageRepo storageRepo;
 
   ProfileCubit({
     required this.profileRepo,
-   // required this.storageRepo,
+    required this.storageRepo,
     }) : super(ProfileInitial());
 
   //fetch the user profile using repo -> useful for loading profile pages
@@ -58,7 +58,7 @@ class ProfileCubit extends Cubit<ProfileState>{
      String? imageDownloadUrl;
 
       //check if the image is not null
-      /*if (imageWebBytes != null || imageMobilePath != null) {
+      if (imageWebBytes != null || imageMobilePath != null) {
         //for mobile
         if (imageMobilePath != null) {
           imageDownloadUrl = await storageRepo.uploadProfileImageMobile(imageMobilePath, uid);
@@ -73,7 +73,7 @@ class ProfileCubit extends Cubit<ProfileState>{
           emit(ProfileError('Error uploading image'));
           return;
         }
-      }*/ 
+      }
 
       //update the profile user
       final updatedProfile = currentUser.copyWith(
