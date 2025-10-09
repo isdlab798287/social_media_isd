@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:isd_app/features/chat/presentation/pages/chat_room_page.dart';
 import 'package:isd_app/features/profile/presentation/components/user_tile.dart';
-//import 'package:isd_app/services/chat_service.dart';
+import 'package:isd_app/services/chat_service.dart';
 import 'package:isd_app/features/profile/domain/entities/profile_user.dart';
 
 class ChatPage extends StatefulWidget {
@@ -13,7 +13,7 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-  //final ChatService _chatService = ChatService();
+  final ChatService _chatService = ChatService();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final TextEditingController _searchController = TextEditingController();
 
@@ -23,19 +23,19 @@ class _ChatPageState extends State<ChatPage> {
   @override
   void initState() {
     super.initState();
-   // _loadUsers();
+    _loadUsers();
     _searchController.addListener(_filterUsers);
   }
 
-  // Future<void> _loadUsers() async {
-  //   _chatService.getUsersStream().listen((snapshot) {
-  //     final data = snapshot.map((doc) => doc as Map<String, dynamic>).toList();
-  //     setState(() {
-  //       _allUsers = data;
-  //       _filteredUsers = data;
-  //     });
-  //   });
-  // }
+  Future<void> _loadUsers() async {
+    _chatService.getUsersStream().listen((snapshot) {
+      final data = snapshot.map((doc) => doc as Map<String, dynamic>).toList();
+      setState(() {
+        _allUsers = data;
+        _filteredUsers = data;
+      });
+    });
+  }
 
   void _filterUsers() {
     final query = _searchController.text.toLowerCase();
