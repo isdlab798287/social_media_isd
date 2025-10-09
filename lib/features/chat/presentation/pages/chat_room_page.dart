@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:isd_app/features/chat/presentation/components/chat_bubble.dart';
-//import 'package:isd_app/services/chat_service.dart';
+import 'package:isd_app/services/chat_service.dart';
 
 class ChatRoomPage extends StatelessWidget {
   final String receiverEmail;
@@ -14,20 +14,20 @@ class ChatRoomPage extends StatelessWidget {
   final TextEditingController _messageController = TextEditingController();
 
   // chat and auth services
-  //final ChatService _chatService = ChatService();
+  final ChatService _chatService = ChatService();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   // send message function
-  // Future<void> _sendMessage() async {
-  //   final String message = _messageController.text;
-  //   if (message.isNotEmpty) {
-  //     // send the message using the chat service
-  //     await _chatService.sendMessage(receiverID, message);
+  Future<void> _sendMessage() async {
+    final String message = _messageController.text;
+    if (message.isNotEmpty) {
+      // send the message using the chat service
+      await _chatService.sendMessage(receiverID, message);
 
-  //     // clear the message input field
-  //     _messageController.clear();
-  //   }
-  // }
+      // clear the message input field
+      _messageController.clear();
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,9 +35,9 @@ class ChatRoomPage extends StatelessWidget {
       body: Column(
         children: [
           // Display messages here
-          // Expanded(
-          //   child: _buildMessageList(),
-          //   ),
+          Expanded(
+            child: _buildMessageList(),
+            ),
 
           // Input field for sending messages
           _buildUserInput(),
@@ -47,31 +47,31 @@ class ChatRoomPage extends StatelessWidget {
   }
 
   // Build the message list
-  // Widget _buildMessageList() {
-  //   String senderID = _auth.currentUser!.uid;
-  //   return StreamBuilder(
-  //     stream: _chatService.getMessages(receiverID, senderID),
-  //     builder: (context, snapshot) {
-  //       // error
-  //       if (snapshot.hasError) {
-  //         return Center(child: Text('Error: ${snapshot.error}'));
-  //       }
+  Widget _buildMessageList() {
+    String senderID = _auth.currentUser!.uid;
+    return StreamBuilder(
+      stream: _chatService.getMessages(receiverID, senderID),
+      builder: (context, snapshot) {
+        // error
+        if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        }
 
-  //       // loading..
-  //       if (snapshot.connectionState == ConnectionState.waiting) {
-  //         return const Text("Loading..");
-  //       }
+        // loading..
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Text("Loading..");
+        }
 
-  //       // return list view
-  //       return ListView(
-  //         reverse: true, // to show the latest message at the bottom
-  //           padding: const EdgeInsets.all(8.0),
-  //         children: 
-  //           snapshot.data!.docs.map((doc) => _buildMessageItem(doc)).toList(),
-  //           );
-  //     },
-  //   );
-  // }
+        // return list view
+        return ListView(
+          reverse: true, // to show the latest message at the bottom
+            padding: const EdgeInsets.all(8.0),
+          children: 
+            snapshot.data!.docs.map((doc) => _buildMessageItem(doc)).toList(),
+            );
+      },
+    );
+  }
 
   // Build individual message item
   Widget _buildMessageItem(DocumentSnapshot doc){
@@ -120,10 +120,10 @@ class ChatRoomPage extends StatelessWidget {
               borderRadius: BorderRadius.circular(30.0),
             ),
             margin: const EdgeInsets.all(10.0),
-            // child: IconButton(
-            //   icon: Icon(Icons.arrow_upward),
-            //   onPressed: _sendMessage,
-            // ),
+            child: IconButton(
+              icon: Icon(Icons.arrow_upward),
+              onPressed: _sendMessage,
+            ),
           ),
         ],),
     );
