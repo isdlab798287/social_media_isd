@@ -31,7 +31,7 @@ class MyTextField extends StatelessWidget {
         //broder when selected
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: Theme.of(context).colorScheme.primary,
+            color: Theme.of(context).colorScheme.inversePrimary,
             width: 2,
           ),
           borderRadius: BorderRadius.circular(12),
@@ -40,7 +40,7 @@ class MyTextField extends StatelessWidget {
         //hint text
         hintText: hintText,
         hintStyle: TextStyle(
-          color: Theme.of(context).colorScheme.primary,
+          color: Theme.of(context).colorScheme.inversePrimary,
         ),
         fillColor: Theme.of(context).colorScheme.secondary,
         filled: true,

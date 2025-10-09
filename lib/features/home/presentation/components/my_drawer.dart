@@ -4,6 +4,7 @@ import 'package:isd_app/features/auth/presentation/cubits/auth_cubit.dart';
 
 import 'package:isd_app/features/home/presentation/components/my_drawer_tile.dart';
 import 'package:isd_app/features/profile/presentation/pages/profile_page.dart';
+import 'package:isd_app/features/settings/pages/settings_page.dart';
 //import 'package:social_media/features/profile/data/firebase_profile_repo.dart';
 //import 'package:social_media/features/profile/presentation/pages/profile_page.dart';
 //import 'package:social_media/features/search/presentation/pages/search_page.dart';
@@ -70,14 +71,14 @@ class MyDrawer extends StatelessWidget {
               ), */
 
               // Settings
-              /* MyDrawerTile(
+              MyDrawerTile(
                 title: "S E T T I N G S",
                 icon: Icons.settings,
                 onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => SettingsPage()),
                 ),
-              ), */
+              ), 
 
               const Spacer(),
 
