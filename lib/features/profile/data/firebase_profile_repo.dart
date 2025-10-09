@@ -2,13 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:isd_app/features/profile/domain/entities/profile_user.dart';
 import 'package:isd_app/features/profile/domain/repos/profile_repo.dart';
 
-class FirebaseProfileRepo implements ProfileRepo {
+class FirebaseProfileRepo implements ProfileRepo{
+
   final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
   @override
-  Future<ProfileUser?> fetchUserProfile(String uid) async {
-    try {
-final userDoc = await firebaseFirestore.collection('users').doc(uid).get();
+  Future<ProfileUser?> fetchUserProfile(String uid) async{
+    try{
+      //get user doc from firestore
+      final userDoc = await firebaseFirestore.collection('users').doc(uid).get();
 
       if(userDoc.exists){
         final userData = userDoc.data();
@@ -30,17 +32,18 @@ final userDoc = await firebaseFirestore.collection('users').doc(uid).get();
           );
         }
     }
+    return null;
     }
-
-    catch (e) {
+    catch(e){
       return null;
     }
   }
 
   @override
   Future<void> updateProfile(ProfileUser updateProfile) async {
-   try{
- //convert the profile user to json to store in firestore
+    try
+    {
+      //convert the profile user to json to store in firestore
       await firebaseFirestore
       .collection('users')
       .doc(updateProfile.uid)
@@ -48,11 +51,10 @@ final userDoc = await firebaseFirestore.collection('users').doc(uid).get();
         'bio': updateProfile.bio,
         'profileImageUrl': updateProfile.profileImageUrl,
       });
-   }
 
-   catch (e) {
-    throw Exception(e);
-   }
+    } catch (e) {
+      throw Exception(e);
+    }
   }
 
   @override

@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:isd_app/features/auth/domain/entities/app_user.dart';
 import 'package:isd_app/features/auth/presentation/cubits/auth_cubit.dart';
 
-import 'package:isd_app/features/post/presentation/components/post_tile.dart';
+//import 'package:isd_app/features/post/presentation/components/post_tile.dart';
 import 'package:isd_app/features/post/presentation/cubits/post_cubit.dart';
 import 'package:isd_app/features/post/presentation/cubits/post_states.dart';
 import 'package:isd_app/features/profile/presentation/components/bio_box.dart';
@@ -255,7 +255,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         itemCount: postsCount,
                         itemBuilder: (context, index) {
                           //get individual post
-                          final post = userPosts[index];
+                          //final post = userPosts[index];
 
                           //return as post tile ui
                           // return PostTile(
