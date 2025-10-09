@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:isd_app/features/auth/presentation/cubits/auth_cubit.dart';
+import 'package:isd_app/features/chat/presentation/pages/chat_page.dart';
 
 import 'package:isd_app/features/home/presentation/components/my_drawer_tile.dart';
 import 'package:isd_app/features/profile/presentation/pages/profile_page.dart';
@@ -69,6 +70,17 @@ class MyDrawer extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => SearchPage()),
                 ),
               ), */
+
+                // Chat
+              MyDrawerTile(
+                title: "C H A T",
+                icon: Icons.chat,
+                onTap:
+                    () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ChatPage(),),
+                    ),
+              ),
 
               // Settings
               MyDrawerTile(

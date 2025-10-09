@@ -119,6 +119,4 @@ class FirebaseAuthRepo implements AuthRepo {
       email: firebaseUser.email!,
     );
   }
-
-
 }
