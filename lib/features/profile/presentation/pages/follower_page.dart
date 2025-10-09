@@ -33,7 +33,9 @@ class FollowerPage extends StatelessWidget {
             dividerColor: Colors.transparent,
             labelColor: Theme.of(context).colorScheme.inversePrimary,
             unselectedLabelColor: Theme.of(context).colorScheme.primary,
-            tabs: [Tab(text: 'Followers'), Tab(text: 'Following')],
+            tabs: const
+             [Tab(text: 'Followers'), 
+             Tab(text: 'Following')],
           ),
         ),
 

@@ -29,14 +29,14 @@ class UserTile extends StatelessWidget {
         color: Theme.of(context).colorScheme.primary,
       ),
 
-      onTap: onTap,
-      // onTap: () => Navigator.push(
-      //   context, 
-      //   MaterialPageRoute(
-      //     builder: (context) => 
-      //       ProfilePage(uid: user.uid,),
-      //   ),
-      // ),
+     // onTap: onTap,
+       onTap: () => Navigator.push(
+       context, 
+         MaterialPageRoute(
+         builder: (context) => 
+        ProfilePage(uid: user.uid,),
+         ),
+       ),
     );
   }
 }
