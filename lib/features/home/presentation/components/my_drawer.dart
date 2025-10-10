@@ -61,15 +61,14 @@ class MyDrawer extends StatelessWidget {
               ), 
 
               // Search
-              /*
               MyDrawerTile(
                 title: "S E A R C H",
                 icon: Icons.search,
                 onTap: () => Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SearchPage()),
+                  MaterialPageRoute(builder: (context) => ChatPage(),),
                 ),
-              ), */
+              ), 
 
                 // Chat
               MyDrawerTile(

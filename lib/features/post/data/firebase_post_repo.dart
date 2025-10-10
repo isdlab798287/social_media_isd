@@ -33,9 +33,10 @@ class FirebasePostRepo implements PostRepo {
           .get();
 
       //convert each firestore document from json to post object
-      final List<Post> allPosts = postsSnapshot.docs
-          .map((doc) => Post.fromJson(doc.data() as Map<String, dynamic>))
-          .toList();
+      final QuerySnapshot postsQuerySnapshot = await postsSnapshot;
+      final List<Post> allPosts = postsQuerySnapshot.docs 
+      .map((doc) => Post.fromJson(doc.data() as Map<String, dynamic>))
+      .toList();
 
       return allPosts;
     } catch (e) {
