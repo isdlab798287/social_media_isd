@@ -15,87 +15,97 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  //post cubit
   late final postCubit = context.read<PostCubit>();
 
-  //on startup, fetch posts
   @override
   void initState() {
     super.initState();
-    //fetch posts
     fetchAllPosts();
   }
 
-  void fetchAllPosts() async {
-    //fetch posts
-    context.read<PostCubit>().fetchAllPosts();
+  Future<void> fetchAllPosts() async {
+    await context.read<PostCubit>().fetchAllPosts();
   }
 
   void deletePost(String postId) {
-    //delete post
     context.read<PostCubit>().deletePost(postId);
-    //fetch posts
     fetchAllPosts();
   }
 
-  //build ui
   @override
   Widget build(BuildContext context) {
-    return ConstrainedScaffold( 
+    return ConstrainedScaffold(
       appBar: AppBar(
         title: const Text('Home'),
         foregroundColor: Theme.of(context).colorScheme.primary,
         actions: [
-          //upload new post button
           IconButton(
             onPressed: () => Navigator.push(
               context,
-              MaterialPageRoute(
-                builder: (context) =>
-                    UploadPostPage(), // Assuming you have an UploadPostPage
-              ),
-            ),
+              MaterialPageRoute(builder: (context) => const UploadPostPage()),
+            ).then((_) {
+              // Refresh after returning from upload page
+              fetchAllPosts();
+            }),
             icon: const Icon(Icons.add),
           ),
         ],
       ),
-
-      //Drawer
-      drawer: MyDrawer(),
-
-      //body
+      drawer: const MyDrawer(),
       body: BlocBuilder<PostCubit, PostState>(
         builder: (context, state) {
-          //loading
+          // Loading state
           if (state is PostsLoading || state is PostUploading) {
             return const Center(child: CircularProgressIndicator());
           }
 
-          //loaded
+          // Loaded state
           if (state is PostsLoaded) {
-            //get posts
             final allPosts = state.posts;
 
             if (allPosts.isEmpty) {
-              return const Center(child: Text('No posts yet'));
+              return RefreshIndicator(
+                onRefresh: fetchAllPosts,
+                child: ListView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  children: const [
+                    SizedBox(height: 300),
+                    Center(child: Text('No posts yet')),
+                  ],
+                ),
+              );
             }
 
-            return ListView.builder(
-              itemCount: allPosts.length,
-              itemBuilder: (context, index) {
-                //get post
-                final post = allPosts[index];
-
-                return PostTile(
-                  post: post,
-                  onDeletePressed: () => deletePost(post.id),
-                );
-              },
+            return RefreshIndicator(
+              onRefresh: fetchAllPosts,
+              color: Theme.of(context).colorScheme.primary,
+              backgroundColor: Theme.of(context).colorScheme.surface,
+              child: ListView.builder(
+                physics: const AlwaysScrollableScrollPhysics(),
+                itemCount: allPosts.length,
+                itemBuilder: (context, index) {
+                  final post = allPosts[index];
+                  return PostTile(
+                    post: post,
+                    onDeletePressed: () => deletePost(post.id),
+                  );
+                },
+              ),
             );
           }
-          //error
+
+          // Error state
           else if (state is PostsError) {
-            return Center(child: Text(state.message));
+            return RefreshIndicator(
+              onRefresh: fetchAllPosts,
+              child: ListView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                children: [
+                  SizedBox(height: 300),
+                  Center(child: Text('Error: ${state.message}')),
+                ],
+              ),
+            );
           } else {
             return const SizedBox();
           }
