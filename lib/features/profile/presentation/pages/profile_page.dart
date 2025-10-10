@@ -15,6 +15,7 @@ import 'package:isd_app/features/profile/presentation/cubits/profile_cubit.dart'
 import 'package:isd_app/features/profile/presentation/cubits/profile_states.dart';
 import 'package:isd_app/features/profile/presentation/pages/edit_profile_page.dart';
 import 'package:isd_app/features/profile/presentation/pages/follower_page.dart';
+import 'package:isd_app/responsive/constrained_scaffold.dart';
 
 class ProfilePage extends StatefulWidget {
   final String uid;
@@ -94,7 +95,7 @@ class _ProfilePageState extends State<ProfilePage> {
           final user = state.profileUser;
 
           //scaffold
-          return Scaffold(
+          return ConstrainedScaffold( 
             //appbar
             appBar: AppBar(
               title: Center(child: Text(user.name)),

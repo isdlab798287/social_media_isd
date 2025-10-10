@@ -5,6 +5,7 @@ import 'package:isd_app/features/post/presentation/components/post_tile.dart';
 import 'package:isd_app/features/post/presentation/cubits/post_cubit.dart';
 import 'package:isd_app/features/post/presentation/cubits/post_states.dart';
 import 'package:isd_app/features/post/presentation/pages/upload_post_page.dart';
+import 'package:isd_app/responsive/constrained_scaffold.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -40,7 +41,7 @@ class _HomePageState extends State<HomePage> {
   //build ui
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ConstrainedScaffold( 
       appBar: AppBar(
         title: const Text('Home'),
         foregroundColor: Theme.of(context).colorScheme.primary,

@@ -9,6 +9,7 @@ import 'package:isd_app/features/auth/presentation/cubits/auth_cubit.dart';
 import 'package:isd_app/features/post/domain/entities/post.dart';
 import 'package:isd_app/features/post/presentation/cubits/post_cubit.dart';
 import 'package:isd_app/features/post/presentation/cubits/post_states.dart';
+import 'package:isd_app/responsive/constrained_scaffold.dart';
 
 class UploadPostPage extends StatefulWidget {
   const UploadPostPage({super.key});
@@ -141,7 +142,7 @@ class _UploadPostPageState extends State<UploadPostPage> {
   }
 
   Widget buildUploadPage() {
-    return Scaffold(
+    return ConstrainedScaffold( 
       appBar: AppBar(
         title: const Text('Create Post'),
         foregroundColor: Theme.of(context).colorScheme.primary,

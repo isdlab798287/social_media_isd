@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:isd_app/features/profile/presentation/components/user_tile.dart';
 import 'package:isd_app/features/profile/presentation/cubits/profile_cubit.dart';
 import 'package:isd_app/features/profile/presentation/pages/profile_page.dart';
+import 'package:isd_app/responsive/constrained_scaffold.dart';
 
 class FollowerPage extends StatelessWidget {
   final List<String> followers;
@@ -26,7 +27,7 @@ class FollowerPage extends StatelessWidget {
       length: 2,
 
       //Scaffold
-      child: Scaffold(
+      child: ConstrainedScaffold( 
         //APP BAR
         appBar: AppBar(
           bottom: TabBar(

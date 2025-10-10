@@ -11,6 +11,7 @@ import 'package:isd_app/features/auth/presentation/components/my_text_field.dart
 import 'package:isd_app/features/auth/presentation/cubits/auth_cubit.dart';
 import 'package:isd_app/features/auth/presentation/cubits/auth_states.dart';
 import 'package:isd_app/features/auth/presentation/pages/forgot_password_page.dart';
+import 'package:isd_app/responsive/constrained_scaffold.dart';
 
 class LoginPage extends StatefulWidget {
   final void Function()?
@@ -71,7 +72,7 @@ class _LoginPageState extends State<LoginPage> {
           );
         }
       },
-      child: Scaffold(
+      child: ConstrainedScaffold( 
         //body
         body: SafeArea(
           child: Center(

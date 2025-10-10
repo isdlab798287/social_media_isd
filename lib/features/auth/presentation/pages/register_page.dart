@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:isd_app/features/auth/presentation/components/my_button.dart';
 import 'package:isd_app/features/auth/presentation/components/my_text_field.dart';
 import 'package:isd_app/features/auth/presentation/cubits/auth_cubit.dart';
+import 'package:isd_app/responsive/constrained_scaffold.dart';
 
 class RegisterPage extends StatefulWidget {
   final void Function()? togglePages; //callback function to navigate to login page
@@ -76,7 +77,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     // Scaffold widget is the main structure of the app
-    return Scaffold(
+    return ConstrainedScaffold(
       
       //body
       body:  SafeArea(

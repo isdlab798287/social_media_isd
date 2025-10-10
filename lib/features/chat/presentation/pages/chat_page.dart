@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:isd_app/features/chat/presentation/pages/chat_room_page.dart';
 import 'package:isd_app/features/profile/presentation/components/user_tile.dart';
+import 'package:isd_app/responsive/constrained_scaffold.dart';
 import 'package:isd_app/services/chat_service.dart';
 import 'package:isd_app/features/profile/domain/entities/profile_user.dart';
 
@@ -58,7 +59,7 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     final currentUserEmail = _auth.currentUser?.email;
 
-    return Scaffold(
+    return ConstrainedScaffold( 
       appBar: AppBar(title: const Text('Chat')),
       body: Column(
         children: [
