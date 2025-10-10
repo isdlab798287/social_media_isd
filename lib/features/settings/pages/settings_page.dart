@@ -6,6 +6,7 @@ dark mode, blocked users, account settings
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:isd_app/responsive/constrained_scaffold.dart';
 import 'package:isd_app/themes/theme_cubit.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -21,7 +22,7 @@ class SettingsPage extends StatelessWidget {
     bool isDarkMode = themeCubit.isDarkMode;
 
     // Scaffold
-    return Scaffold(
+    return ConstrainedScaffold( 
       appBar: AppBar(
         title: const Text("Settings"),
         foregroundColor: Theme.of(context).colorScheme.primary,

@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -10,6 +9,7 @@ import 'package:isd_app/features/auth/presentation/components/my_text_field.dart
 import 'package:isd_app/features/profile/domain/entities/profile_user.dart';
 import 'package:isd_app/features/profile/presentation/cubits/profile_cubit.dart';
 import 'package:isd_app/features/profile/presentation/cubits/profile_states.dart';
+import 'package:isd_app/responsive/constrained_scaffold.dart';
 
 class EditProfilePage extends StatefulWidget {
   final ProfileUser user;
@@ -124,7 +124,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   }
 
   Widget buildEditPage() {
-    return Scaffold(
+    return ConstrainedScaffold (
       appBar: AppBar(
         title: const Text('Edit Profile'),
         foregroundColor: Theme.of(context).colorScheme.primary,

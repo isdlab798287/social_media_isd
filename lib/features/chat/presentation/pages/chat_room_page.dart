@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:isd_app/features/chat/presentation/components/chat_bubble.dart';
+import 'package:isd_app/responsive/constrained_scaffold.dart';
 import 'package:isd_app/services/chat_service.dart';
 
 class ChatRoomPage extends StatelessWidget {
@@ -30,7 +31,7 @@ class ChatRoomPage extends StatelessWidget {
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ConstrainedScaffold( 
       appBar: AppBar(title: Text(receiverEmail)),
       body: Column(
         children: [
