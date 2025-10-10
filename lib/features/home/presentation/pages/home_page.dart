@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:isd_app/features/home/presentation/components/my_drawer.dart';
-//import 'package:isd_app/features/post/presentation/components/post_tile.dart';
+import 'package:isd_app/features/post/presentation/components/post_tile.dart';
 import 'package:isd_app/features/post/presentation/cubits/post_cubit.dart';
 import 'package:isd_app/features/post/presentation/cubits/post_states.dart';
 import 'package:isd_app/features/post/presentation/pages/upload_post_page.dart';
@@ -48,9 +48,12 @@ class _HomePageState extends State<HomePage> {
           //upload new post button
           IconButton(
             onPressed: () => Navigator.push(
-              context, MaterialPageRoute(
-              builder: (context) => UploadPostPage(), // Assuming you have an UploadPostPage
-            )),
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    UploadPostPage(), // Assuming you have an UploadPostPage
+              ),
+            ),
             icon: const Icon(Icons.add),
           ),
         ],
@@ -63,10 +66,8 @@ class _HomePageState extends State<HomePage> {
       body: BlocBuilder<PostCubit, PostState>(
         builder: (context, state) {
           //loading
-          if(state is PostsLoading  || state is PostUploading){
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+          if (state is PostsLoading || state is PostUploading) {
+            return const Center(child: CircularProgressIndicator());
           }
 
           //loaded
@@ -74,41 +75,31 @@ class _HomePageState extends State<HomePage> {
             //get posts
             final allPosts = state.posts;
 
-            if(allPosts.isEmpty){
-              return const Center(
-                child: Text('No posts yet'),
-              );
+            if (allPosts.isEmpty) {
+              return const Center(child: Text('No posts yet'));
             }
 
             return ListView.builder(
               itemCount: allPosts.length,
               itemBuilder: (context, index) {
                 //get post
-                //final post = allPosts[index];
+                final post = allPosts[index];
 
-                // return PostTile(
-                //   post: post,
-                //   onDeletePressed: () => deletePost(post.id),
-                // );
+                return PostTile(
+                  post: post,
+                  onDeletePressed: () => deletePost(post.id),
+                );
               },
             );
           }
-          
-
           //error
           else if (state is PostsError) {
-            return Center(
-              child: Text(
-                state.message,
-              ),
-            );
-          }
-          else {
+            return Center(child: Text(state.message));
+          } else {
             return const SizedBox();
           }
-        }
-        ),
-
+        },
+      ),
     );
   }
 }

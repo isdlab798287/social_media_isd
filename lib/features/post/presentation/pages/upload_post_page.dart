@@ -1,5 +1,6 @@
 import 'dart:io';
-import 'package:file_picker/file_picker.dart' show FilePicker, FileType, PlatformFile;
+import 'package:file_picker/file_picker.dart'
+    show FilePicker, FileType, PlatformFile;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -84,6 +85,8 @@ class _UploadPostPageState extends State<UploadPostPage> {
       text: textController.text,
       imageUrl: '',
       timestamp: DateTime.now(),
+      likes: [], // Initialize likes as an empty list
+      comments: [], // Initialize comments as an empty list
     );
 
     //post cubit
